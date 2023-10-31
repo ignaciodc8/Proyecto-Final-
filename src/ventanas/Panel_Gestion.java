@@ -4,6 +4,7 @@ import Connect1on.ConnectionMySQL;
 //import Connect1on.ControlDatos;
 import java.sql.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class Panel_Gestion extends javax.swing.JFrame {
 
@@ -18,7 +19,40 @@ public class Panel_Gestion extends javax.swing.JFrame {
         
     }
 
+   public void mostrar(String tabla){
    
+       String sql = "SELECT * FROM " + tabla;
+       Statement st;
+       ConnectionMySQL con = new ConnectionMySQL();
+       Connection conexion = con.conectar();
+       DefaultTableModel model = new DefaultTableModel();
+       model.addColumn("ID");
+       model.addColumn("Piso");
+       model.addColumn("Depto");
+       model.addColumn("Propietario");
+       model.addColumn("Inquilino");
+       model.addColumn("Gastos");
+       model.addColumn("Disponible");
+       visor.setModel(model);
+       
+       String[] datos = new String[7];
+       
+       try {
+       st = conexion.createStatement();
+       ResultSet rs = st.executeQuery(sql);
+       while(rs.next()) {
+       datos[0] = rs.getString(1);
+       datos[1] = rs.getString(2);
+       datos[2] = rs.getString(3);
+       datos[3] = rs.getString(4);
+       datos[4] = rs.getString(5);
+       datos[5] = rs.getString(6);
+       model.addRow(datos);
+       }
+       } catch(SQLException ex) {
+       JOptionPane.showMessageDialog(null, "Error. " + ex.getMessage());
+       }
+   }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -31,6 +65,9 @@ public class Panel_Gestion extends javax.swing.JFrame {
         txtDepto = new javax.swing.JTextField();
         txtGastos = new javax.swing.JTextField();
         botonIngresar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        visor = new javax.swing.JTable();
+        botonMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,6 +102,26 @@ public class Panel_Gestion extends javax.swing.JFrame {
             }
         });
 
+        visor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(visor);
+
+        botonMostrar.setText("MOSTRAR");
+        botonMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonMostrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -85,13 +142,21 @@ public class Panel_Gestion extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtGastos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(botonIngresar, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(251, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                .addComponent(botonMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(255, 255, 255)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonMostrar))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -159,6 +224,10 @@ public class Panel_Gestion extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_botonIngresarActionPerformed
+
+    private void botonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarActionPerformed
+        mostrar("departamentos");
+    }//GEN-LAST:event_botonMostrarActionPerformed
          void limpiar() {
         txtPiso.setText(null);
         txtDepto.setText(null);
@@ -203,12 +272,15 @@ public class Panel_Gestion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonIngresar;
+    private javax.swing.JButton botonMostrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtDepto;
     private javax.swing.JTextField txtGastos;
     private javax.swing.JTextField txtInquilino;
     private javax.swing.JTextField txtPiso;
     private javax.swing.JTextField txtPropietario;
+    public javax.swing.JTable visor;
     // End of variables declaration//GEN-END:variables
 }
