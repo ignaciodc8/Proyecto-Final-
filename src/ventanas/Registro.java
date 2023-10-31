@@ -1,15 +1,16 @@
 
-package proyectofinal;
+package ventanas;
 import javax.swing.*;
 import java.sql.*;
 import Connect1on.ConnectionMySQL;
-import java.sql.Connection;
+//import java.sql.Connection;
 
 public class Registro extends javax.swing.JFrame {
 
     Connect1on.ConnectionMySQL con = new ConnectionMySQL();
     Connection cn = con.conectar();
     public Registro() {
+        
         initComponents();
         setLocationRelativeTo(null);
     }

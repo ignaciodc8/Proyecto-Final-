@@ -1,22 +1,25 @@
 
-package proyectofinal;
+package ventanas;
+import ventanas.Registro;
 import java.sql.*;
 import Connect1on.ConnectionMySQL;
 import javax.swing.JOptionPane;
 public class Inicio extends javax.swing.JFrame {
 
+    //se utiliza para instanciar la ventana registro y que se mantenga conectada a la BBDD.
     public static Registro reg;
+    public static Panel_Gestion pg;
     ConnectionMySQL con = new ConnectionMySQL();
     Connection cn = con.conectar();
     
     public Inicio() {
-        super("Consorcio APP");
+        super("Consorcio APP"); //titulo de la app.
         
         
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE); //sale al presionar "X"
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); //centra la ventana
     }
 
     /**
@@ -137,21 +140,26 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_usuarioTXTFieldActionPerformed
 
     private void botonInicioSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInicioSesionActionPerformed
-        String usuario = usuarioTXTField.getText();
-        String pass = passTXTField.getText();
+        String usuario = usuarioTXTField.getText(); //toma el nombre de usuario
+        String pass = passTXTField.getText(); //toma la contraseña
         
-        if (!usuario.equals("") || !pass.equals("")){
+        //a continuación, condicional para comprobar que los datos sean correctos
+        if (!usuario.equals("") || !pass.equals("")){ //si usuario y pw son diferentes a vacío
             try {
-            PreparedStatement ps = cn.prepareStatement("SELECT `nombreusuario`, `clave` FROM `usuarios` WHERE nombreusuario='"+usuario+"' AND clave='"+pass+"';");
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement ps = cn.prepareStatement("SELECT `nombreusuario`, `clave` FROM `usuarios` WHERE nombreusuario='"+usuario+"' AND clave='"+pass+"';"); // realizo la consulta en la BBDD.
+            ResultSet rs = ps.executeQuery(); //ejecución
             
+            //condicional, si es correcto ingresa y msj de bienvenida.
             if(rs.next()) {
             JOptionPane.showMessageDialog(null,"Bienvenido "+usuario+"");
+            
             }
             }
             catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos."); //si no es correcto, msj de error.
             }
+            pg = new Panel_Gestion();
+            pg.setVisible(true);
         } else {
         JOptionPane.showMessageDialog(null,"Debe completar los datos." );
         }

@@ -43,7 +43,9 @@ public class ConnectionMySQL {
             //stmt.executeUpdate("INSERT INTO usuarios VALUES(null, 'Hola', 'Asdasd', '32453432') ");
         } catch (SQLException ex) {
             Logger.getLogger(ProyectoFinal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
+        
         return cn;
+       }
 }
-}
+
